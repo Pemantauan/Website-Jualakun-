@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pradz Store - Toko Akun Digital</title>
+<style>
+:root{
+  --bg:#0b1020;--bg2:#121933;--panel:#161e3c;--panel2:#1c2650;--border:#26315e;
+  --text:#e6ebff;--muted:#8a94b8;--primary:#9333ea;--primary2:#a855f7; /* Warna ungu disesuaikan banner */
+  --success:#22c55e;--danger:#ef4444;--warning:#f59e0b;--info:#38bdf8;
+  --radius:12px;--radius-sm:8px;--shadow:0 10px 30px rgba(0,0,0,.5);
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+/* BACKGROUND GAMBAR PRADZ STORE */
+body{
+  font-family:var(--font);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;
+  background-color: var(--bg);
+  background-image: 
+    linear-gradient(rgba(11, 16, 32, 0.85), rgba(11, 16, 32, 0.95)), /* Efek gelap transparan */
+    url('file_000000004c5c8211b83ea6f4580aea7b.png'); /* GANTI NAMA FILE BANNER DI SINI */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+a{color:var(--primary2);text-decoration:none}a:hover{text-decoration:underline}
+.muted{color:var(--muted)}.small{font-size:12px}.hidden{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:var(--radius-sm);border:1px solid transparent;background:var(--panel2);color:var(--text);cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;transition:.15s}
+.btn:hover{filter:brightness(1.1)}.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary2)}
+.btn-danger{background:var(--danger);color:#fff}.btn-success{background:var(--success);color:#fff}
+.btn-warning{background:var(--warning);color:#111}
+.btn-ghost{background:rgba(22,30,60,0.6);border-color:var(--border);color:var(--muted);backdrop-filter:blur(4px)}
+.btn-ghost:hover{color:var(--text);border-color:var(--primary)}
+.btn-sm{padding:5px 10px;font-size:12px}.btn-block{width:100%}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(18,25,51,0.8);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:13px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(147,51,234,.25)}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+label>input,label>select,label>textarea{margin-top:6px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--text)}
+
+/* UI UTAMA */
+.auth-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{width:100%;max-width:420px;background:rgba(22,30,60,0.85);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+.brand{text-align:center;margin-bottom:24px}
+.brand-logo{width:56px;height:56px;border-radius:14px;margin:0 auto 12px;background:linear-gradient(135deg,var(--primary),#d946ef);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#fff}
+.brand h1{font-size:22px;margin-bottom:4px;text-transform:uppercase;letter-spacing:2px}
+.auth-form{display:flex;flex-direction:column}
+.auth-links{display:flex;justify-content:space-between;margin-top:14px;font-size:13px}
+.auth-message{margin-top:16px;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(147,51,234,.15);border:1px solid rgba(147,51,234,.4);font-size:13px}
+.auth-message.error{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.4);color:#fca5a5}
+.auth-message.success{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.4);color:#86efac}
+
+.topnav{display:flex;align-items:center;gap:16px;padding:14px 24px;border-bottom:1px solid var(--border);background:rgba(11,16,32,.8);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.topnav .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:1px;color:#fff}
+.topnav .logo img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary)}
+.topnav nav{display:flex;gap:4px;flex-wrap:wrap}
+.topnav nav a{padding:8px 12px;border-radius:var(--radius-sm);color:var(--muted);font-weight:600;font-size:13px}
+.topnav nav a:hover,.topnav nav a.active{background:var(--panel2);color:var(--text);text-decoration:none}
+.topnav .spacer{flex:1}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+
+/* KARTU & PANEL */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:rgba(22,30,60,0.8);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.15s;display:flex;flex-direction:column}
+.card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 20px rgba(147,51,234,0.2)}
+.card-img{aspect-ratio:1;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover}
+.card-body{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card-title{font-weight:700;font-size:14px;line-height:1.3}
+.card-price{color:var(--primary2);font-weight:800;font-size:16px}
+.card-cat{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.panel{background:rgba(22,30,60,0.85);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--shadow)}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.panel-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--primary2)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+th{text-align:left;padding:10px 12px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);font-weight:700}
+td{padding:10px 12px;border-bottom:1px solid rgba(38,49,94,.5);vertical-align:middle}
+tr:hover td{background:rgba(147,51,234,.05)}
+.empty-row td{text-align:center;color:var(--muted);padding:24px}
+.badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.badge-success{background:rgba(34,197,94,.15);color:#86efac}
+.badge-danger{background:rgba(239,68,68,.15);color:#fca5a5}
+.badge-warning{background:rgba(245,158,11,.15);color:#fcd34d}
+.badge-info{background:rgba(56,189,248,.15);color:#7dd3fc}
+.badge-muted{background:rgba(138,148,184,.15);color:var(--muted)}
+
+/* MODAL, TOAST, DLL */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;backdrop-filter:blur(3px)}
+.modal{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);width:100%;max-width:560px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-head h3{font-size:15px;color:var(--primary2)}
+.modal-body{padding:20px;overflow-y:auto}
+.toast{position:fixed;bottom:20px;right:20px;padding:12px 18px;border-radius:var(--radius-sm);background:var(--panel2);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:600;box-shadow:var(--shadow);z-index:200;max-width:320px}
+.toast.success{background:rgba(34,197,94,.2);border-color:var(--success);color:#86efac}
+.toast.error{background:rgba(239,68,68,.2);border-color:var(--danger);color:#fca5a5}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:flex-end}
+.filters>div{min-width:140px;flex:1;max-width:220px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:rgba(22,30,60,0.8);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.stat-label{color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.stat-value{font-size:20px;font-weight:800}
+.stat-value.primary{color:var(--primary2)}.stat-value.success{color:var(--success)}
+.stat-value.danger{color:var(--danger)}.stat-value.warning{color:var(--warning)}
+.qris-box{background:rgba(18,25,51,0.8);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;margin:16px 0}
+.qris-box img{max-width:280px;width:100%;border-radius:8px;background:#fff;padding:8px;cursor:zoom-in}
+.wa-box{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.4);border-radius:var(--radius);padding:14px;margin:12px 0}
+.acct-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--border)}
+.acct-row b{font-family:monospace}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+@media(max-width:640px){
+  .container{padding:16px}.topnav{padding:12px 16px}
+  .auth-card{padding:24px}.stat-value{font-size:17px}
+  .modal-body{padding:16px}th,td{padding:8px 10px}
+  .topnav .logo img {width: 30px; height: 30px;}
+}
+</style>
+</head>
+<body>
+
+<div id="authView" class="auth-view">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-logo" style="background:none; width:80px; height:80px; margin-bottom:8px;">
+        <!-- LOGO MENGGUNAKAN GAMBAR BANNER DARI GITHUB -->
+        <img src="https://raw.githubusercontent.com/Pemantauan/Website-Jualakun-/main/file_000000004c5c8210b99d9e1899200df1.png" style="width:100%;height:100%;object-fit:contain;border-radius:12px;" alt="Logo Pradz" />
+      </div>
+      <h1>Pradz Store</h1>
+      <p class="muted" id="authSubtitle">Masuk untuk melanjutkan</p>
+    </div>
+    <form id="loginForm" class="auth-form">
+      <label>Email <input type="email" id="loginEmail" required autocomplete="email" /></label>
+      <label>Password <input type="password" id="loginPassword" required minlength="6" autocomplete="current-password" /></label>
+      <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Masuk</button>
+      <div class="auth-links">
+        <a href="#" id="toRegister">Daftar akun</a>
+        <a href="#" id="toForgot">Lupa password?</a>
+      </div>
+    </form>
+    <form id="registerForm" class="auth-form hidden">
+      <label>Nama <input type="text" id="regName" required minlength="2" maxlength="40" /></label>
+      <label>Email <input type="email" id="regEmail" required autocomplete="email" /></label>
+      <label>Password <input type="password" id="regPassword" required minlength="6" autocomplete="new-password" /></label>
+      <button type="submit" class="btn btn-primary btn-block" id="registerBtn">Daftar</button>
+      <div class="auth-links"><a href="#" id="toLoginFromReg">Sudah punya akun? Masuk</a></div>
+    </form>
+    <form id="forgotForm" class="auth-form hidden">
+      <label>Email <input type="email" id="forgotEmail" required autocomplete="email" /></label>
+      <button type="submit" class="btn btn-primary btn-block" id="forgotBtn">Kirim Link Reset</button>
+      <div class="auth-links"><a href="#" id="toLoginFromForgot">Kembali ke login</a></div>
+    </form>
+    <div id="authMessage" class="auth-message hidden"></div>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+  <header class="topnav">
+    <div class="logo">
+      <img src="https://raw.githubusercontent.com/Pemantauan/Website-Jualakun-/main/file_000000004c5c8210b99d9e1899200df1.png" alt="Logo" />
+      <span>PRADZ STORE</span>
+    </div>
+    <nav id="mainNav"></nav>
+    <div class="spacer"></div>
+    <span class="muted small" id="navUser">—</span>
+    <button class="btn btn-ghost btn-sm" id="logoutBtn">Keluar</button>
+  </header>
+  <main class="container" id="content"></main>
+</div>
+
+<div id="modalBackdrop" class="modal-backdrop hidden">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h3 id="modalTitle">Form</h3>
+      <button class="btn btn-ghost" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<div id="toast" class="toast hidden"></div>
+
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDxiDzk0n4VB9AqqT49sJxn8NDY3ktOf2s",
+  authDomain: "xii-tjkt-3.firebaseapp.com",
+  databaseURL: "https://xii-tjkt-3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "xii-tjkt-3",
+  storageBucket: "xii-tjkt-3.firebasestorage.app",
+  messagingSenderId: "241956035753",
+  appId: "1:241956035753:web:c712603315b474c5909db8"
+};
+
+const ROOT = "toko";
+const WA_NUMBER = "6285814497382";
+
+// GAMBAR QRIS DEFAULT DARI GITHUB KAMU
+// Jika admin upload lewat dashboard, maka yang dipakai adalah yang di database
+const QRIS_FALLBACK = "qr_ID1026626918621_28.10.26_1793189100_1793189100315.jpeg"; 
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  signOut, sendPasswordResetEmail, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getDatabase, ref, get, set, update, push, remove, onValue
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const app = initializeApp(FIREBASE_CONFIG);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const state = {
+  user: null, profile: null, page: "home", route: { id: null },
+  listeners: [],
+  data: { products:{}, categories:{}, orders:{}, carts:{}, qris:{}, users:{}, settings:{} }
+};
+
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const rp = n => "Rp"+Number(n||0).toLocaleString("id-ID");
+const fmtDate = ts => ts ? new Date(ts).toLocaleString("id-ID",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "-";
+const isAdmin = () => state.profile?.role === "admin";
+const escapeHTML = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function toast(msg,type="success"){
+  const el=$("#toast"); el.textContent=msg; el.className=`toast ${type}`; el.classList.remove("hidden");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.add("hidden"),2800);
+}
+function openModal(title,bodyHTML,onSubmit){
+  $("#modalTitle").textContent=title; $("#modalBody").innerHTML=bodyHTML;
+  $("#modalBackdrop").classList.remove("hidden");
+  const f=$("#modalBody form");
+  if(f&&onSubmit){ f.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const btn=f.querySelector("button[type=submit]"); if(btn){btn.disabled=true;btn.textContent="Menyimpan...";}
+    try{ await onSubmit(new FormData(f)); }catch(err){ toast(err.message||"Error","error"); }
+    finally{ if(btn){btn.disabled=false;btn.textContent=btn.dataset.label||"Simpan";} }
+  }); }
+  $("#modalClose").onclick=closeModal;
+}
+function closeModal(){ $("#modalBackdrop").classList.add("hidden"); $("#modalBody").innerHTML=""; }
+
+function fileToBase64(file,maxKB=250){
+  return new Promise((res,rej)=>{
+    if(!/^image\/(png|jpe?g|webp)$/.test(file.type)) return rej(new Error("Format harus JPG/PNG/WEBP"));
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement("canvas");
+        let {width,height}=img;
+        const maxDim=800;
+        if(width>maxDim||height>maxDim){
+          const ratio=Math.min(maxDim/width,maxDim/height);
+          width=Math.round(width*ratio); height=Math.round(height*ratio);
+        }
+        canvas.width=width; canvas.height=height;
+        canvas.getContext("2d").drawImage(img,0,0,width,height);
+        let quality=0.8, out=canvas.toDataURL("image/jpeg",quality);
+        while(out.length/1024 > maxKB*1.37 && quality>0.3){
+          quality-=0.1; out=canvas.toDataURL("image/jpeg",quality);
+        }
+        if(out.length/1024 > maxKB*1.37) return rej(new Error("Gambar terlalu besar"));
+        res(out);
+      };
+      img.onerror=()=>rej(new Error("Gagal baca gambar"));
+      img.src=e.target.result;
+    };
+    reader.onerror=()=>rej(new Error("Gagal baca file"));
+    reader.readAsDataURL(file);
+  });
+}
+
+function friendlyAuthError(err){
+  const map={
+    "auth/invalid-email":"Email tidak valid.","auth/user-not-found":"Akun tidak ditemukan.",
+    "auth/wrong-password":"Password salah.","auth/invalid-credential":"Email atau password salah.",
+    "auth/email-already-in-use":"Email sudah terdaftar.","auth/weak-password":"Password minimal 6 karakter.",
+    "auth/too-many-requests":"Terlalu banyak percobaan.","auth/network-request-failed":"Koneksi bermasalah."
+  };
+  return map[err?.code]||err?.message||"Terjadi kesalahan.";
+}
+
+const authView=$("#authView"), appView=$("#appView");
+function showAuthMessage(msg,type=""){
+  const el=$("#authMessage"); el.className=`auth-message ${type}`; el.textContent=msg;
+  el.classList.remove("hidden"); setTimeout(()=>el.classList.add("hidden"),6000);
+}
+function switchAuthForm(w){
+  $("#loginForm").classList.toggle("hidden",w!=="login");
+  $("#registerForm").classList.toggle("hidden",w!=="register");
+  $("#forgotForm").classList.toggle("hidden",w!=="forgot");
+  $("#authSubtitle").textContent=w==="login"?"Masuk untuk melanjutkan":w==="register"?"Buat akun baru":"Reset password akunmu";
+}
+$("#toRegister").onclick=e=>{e.preventDefault();switchAuthForm("register")};
+$("#toForgot").onclick=e=>{e.preventDefault();switchAuthForm("forgot")};
+$("#toLoginFromReg").onclick=e=>{e.preventDefault();switchAuthForm("login")};
+$("#toLoginFromForgot").onclick=e=>{e.preventDefault();switchAuthForm("login")};
+
+$("#loginForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const b=$("#loginBtn"); b.disabled=true; b.textContent="Memuat...";
+  try{ await signInWithEmailAndPassword(auth,$("#loginEmail").value.trim(),$("#loginPassword").value); }
+  catch(err){ showAuthMessage(friendlyAuthError(err),"error"); }
+  finally{ b.disabled=false; b.textContent="Masuk"; }
+});
+
+$("#registerForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const b=$("#registerBtn"); b.disabled=true; b.textContent="Memuat...";
+  try{
+    const name=$("#regName").value.trim(), email=$("#regEmail").value.trim(), pass=$("#regPassword").value;
+    if(name.length<2) throw new Error("Nama minimal 2 karakter");
+    if(pass.length<6) throw new Error("Password minimal 6 karakter");
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    const snap=await get(ref(db,`${ROOT}/users`));
+    const isFirst=!snap.exists()||Object.keys(snap.val()).length===0;
+    await set(ref(db,`${ROOT}/users/${cred.user.uid}`),{
+      email, displayName:name, role:isFirst?"admin":"pembeli", createdAt:Date.now()
+    });
+    showAuthMessage(isFirst?"Akun Admin dibuat!":"Akun dibuat, silakan masuk.","success");
+  }catch(err){ showAuthMessage(friendlyAuthError(err),"error"); }
+  finally{ b.disabled=false; b.textContent="Daftar"; }
+});
+
+$("#forgotForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const b=$("#forgotBtn"); b.disabled=true; b.textContent="Mengirim...";
+  try{ await sendPasswordResetEmail(auth,$("#forgotEmail").value.trim()); showAuthMessage("Link reset dikirim. Cek email.","success"); }
+  catch(err){ showAuthMessage(friendlyAuthError(err),"error"); }
+  finally{ b.disabled=false; b.textContent="Kirim Link Reset"; }
+});
+
+onAuthStateChanged(auth,async user=>{
+  state.listeners.forEach(u=>{try{u()}catch{}}); state.listeners=[];
+  if(!user){ state.user=null; state.profile=null; authView.classList.remove("hidden"); appView.classList.add("hidden"); return; }
+  state.user=user;
+  const snap=await get(ref(db,`${ROOT}/users/${user.uid}`));
+  if(!snap.exists()){
+    await set(ref(db,`${ROOT}/users/${user.uid}`),{email:user.email,displayName:user.email.split("@")[0],role:"pembeli",createdAt:Date.now()});
+    state.profile={email:user.email,displayName:user.email.split("@")[0],role:"pembeli"};
+  } else state.profile=snap.val();
+  authView.classList.add("hidden"); appView.classList.remove("hidden");
+  $("#navUser").textContent = `${state.profile.displayName} (${state.profile.role})`;
+  state.page="home"; state.route={id:null};
+  attachListeners(); renderNav(); renderPage();
+});
+
+$("#logoutBtn").onclick=async()=>{ state.listeners.forEach(u=>{try{u()}catch{}}); state.listeners=[]; await signOut(auth); };
+
+function attachListeners(){
+  ["products","categories","qris","settings","users"].forEach(p=>{
+    const unsub=onValue(ref(db,`${ROOT}/${p}`),snap=>{
+      state.data[p]=snap.val()||{};
+      if(!appView.classList.contains("hidden")){ renderNav(); renderPage(); }
+    },err=>console.warn("listen",p,err));
+    state.listeners.push(unsub);
+  });
+  if(state.user){
+    const isAdm = state.profile.role==="admin";
+    const unsub=onValue(ref(db,`${ROOT}/orders`),snap=>{
+      const all=snap.val()||{}; const filtered={};
+      Object.entries(all).forEach(([k,v])=>{ if(isAdm||v.uid===state.user.uid) filtered[k]=v; });
+      state.data.orders=filtered;
+      if(!appView.classList.contains("hidden")) renderPage();
+    },err=>console.warn("orders",err));
+    state.listeners.push(unsub);
+
+    const unsubCart=onValue(ref(db,`${ROOT}/carts/${state.user.uid}`),snap=>{
+      state.data.carts=snap.val()||{};
+      if(!appView.classList.contains("hidden")) renderNav();
+    });
+    state.listeners.push(unsubCart);
+  }
+}
+
+function renderNav(){
+  const nav=$("#mainNav"); nav.innerHTML="";
+  const items=[
+    {id:"home",label:"Beranda"},{id:"catalog",label:"Katalog"},
+    {id:"cart",label:`Keranjang${cartCount()?` (${cartCount()})`:""}`},
+    {id:"orders",label:"Pesanan Saya"}
+  ];
+  if(isAdmin()) items.push({id:"admin",label:"Dashboard Admin"});
+  items.push({id:"help",label:"Bantuan"});
+  items.forEach(it=>{
+    const a=document.createElement("a"); a.href="#"; a.textContent=it.label;
+    a.className=state.page===it.id?"active":"";
+    a.onclick=e=>{e.preventDefault();state.page=it.id;state.route={id:null};renderNav();renderPage();};
+    nav.appendChild(a);
+  });
+}
+function cartCount(){ return Object.values(state.data.carts||{}).reduce((n,x)=>n+Number(x.qty||0),0); }
+
+function renderPage(){
+  const c=$("#content");
+  const map={home:renderHome,catalog:renderCatalog,cart:renderCart,orders:renderOrders,admin:renderAdmin,help:renderHelp,detail:renderDetail,checkout:renderCheckout,payment:()=>renderPayment(state.route.id),account:()=>renderAccount(state.route.id)};
+  const fn=map[state.page]||renderHome;
+  c.innerHTML=fn(); bindPageActions();
+}
+
+function renderHome(){
+  const products=Object.entries(state.data.products||{}).map(([id,p])=>({id,...p}));
+  const latest=products.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,8);
+  return `
+    <div class="panel" style="text-align:center;padding:32px 20px;border-color:var(--primary);">
+      <h2 style="font-size:26px;margin-bottom:8px;color:#fff;text-shadow:0 2px 10px rgba(147,51,234,0.8);">PRADZ STORE</h2>
+      <p class="muted">Pusat Top Up Game, Jasa Sosmed, & Akun Digital Termurah.</p>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" data-go="catalog">Lihat Katalog</button>
+        <button class="btn btn-ghost" data-go="help">Cara Beli</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Produk Terbaru</div></div>
+      ${latest.length?`<div class="grid">${latest.map(cardProduct).join("")}</div>`:`<p class="muted small">Belum ada produk. Admin bisa menambah dari Dashboard Admin.</p>`}
+    </div>`;
+}
+function cardProduct(p){
+  return `<div class="card">
+    <div class="card-img">${p.image?`<img src="${p.image}" alt="${escapeHTML(p.name)}"/>`:`<span>No Image</span>`}</div>
+    <div class="card-body">
+      <div class="card-cat">${escapeHTML(p.category||"-")}</div>
+      <div class="card-title">${escapeHTML(p.name||"-")}</div>
+      <div class="card-price">${rp(p.price)}</div>
+      <div class="small muted">Stok: ${Number(p.stock||0)>0?p.stock:"Habis"}</div>
+      <button class="btn btn-primary btn-sm" data-go-detail="${p.id}">Detail</button>
+    </div></div>`;
+}
+function renderCatalog(){
+  const products=Object.entries(state.data.products||{}).map(([id,p])=>({id,...p}));
+  const cats=Object.entries(state.data.categories||{}).map(([id,c])=>({id,...c}));
+  return `<div class="panel">
+    <div class="panel-head"><div class="panel-title">Katalog Produk</div></div>
+    <div class="filters">
+      <div><label>Cari <input id="fSearch" placeholder="Nama produk..." /></label></div>
+      <div><label>Kategori<select id="fCat"><option value="">Semua</option>${cats.map(c=>`<option value="${escapeHTML(c.name)}">${escapeHTML(c.name)}</option>`).join("")}</select></label></div>
+      <div><label>Urutkan<select id="fSort"><option value="new">Terbaru</option><option value="asc">Harga Termurah</option><option value="desc">Harga Termahal</option></select></label></div>
+    </div>
+    <div id="catalogGrid" class="grid">${products.map(cardProduct).join("")||`<p class="muted small">Belum ada produk.</p>`}</div>
+  </div>`;
+}
+function renderDetail(){
+  const p=state.data.products?.[state.route.id];
+  if(!p) return `<div class="panel"><p class="muted">Produk tidak ditemukan.</p><button class="btn btn-ghost" data-go="catalog">Kembali</button></div>`;
+  const inCart = state.data.carts?.[state.route.id];
+  return `<div class="panel">
+    <button class="btn btn-ghost btn-sm" data-go="catalog">← Kembali</button>
+    <div style="display:grid;grid-template-columns:1fr;md:grid-template-columns:1fr 1fr;gap:20px;margin-top:14px;">
+      <div class="card-img" style="border-radius:12px;max-height:300px;">${p.image?`<img src="${p.image}" style="object-fit:contain;"/>`:`<span>No Image</span>`}</div>
+      <div>
+        <div class="card-cat">${escapeHTML(p.category||"-")}</div>
+        <h2 style="margin:6px 0;">${escapeHTML(p.name)}</h2>
+        <div class="card-price" style="font-size:24px;margin:8px 0;">${rp(p.price)}</div>
+        <p class="small muted">Stok: ${Number(p.stock||0)>0?p.stock:"Habis"}</p>
+        <p style="margin:12px 0;">${escapeHTML(p.description||"Tidak ada deskripsi.")}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+          <button class="btn btn-ghost" data-add-cart="${state.route.id}">${inCart?"Update Keranjang":"+ Keranjang"}</button>
+          <button class="btn btn-primary" data-buy="${state.route.id}" ${Number(p.stock||0)<=0?"disabled":""}>Beli Sekarang</button>
+        </div>
+      </div>
+    </div></div>`;
+}
+function renderCart(){
+  const cart=state.data.carts||{};
+  const items=Object.entries(cart).map(([pid,q])=>{ const p=state.data.products?.[pid]; return p?{pid,p,qty:q.qty}:null; }).filter(Boolean);
+  if(!items.length) return `<div class="panel"><p class="muted">Keranjang kosong.</p><button class="btn btn-primary" data-go="catalog">Belanja</button></div>`;
+  const total=items.reduce((s,x)=>s+Number(x.p.price||0)*x.qty,0);
+  return `<div class="panel">
+    <div class="panel-title">Keranjang</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Produk</th><th>Harga</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
+      <tbody>${items.map(x=>`<tr>
+        <td>${escapeHTML(x.p.name)}</td><td>${rp(x.p.price)}</td>
+        <td><input type="number" min="1" max="${x.p.stock||99}" value="${x.qty}" data-qty="${x.pid}" style="width:70px;"/></td>
+        <td>${rp(Number(x.p.price)*x.qty)}</td>
+        <td><button class="btn btn-danger btn-sm" data-del-cart="${x.pid}">Hapus</button></td>
+      </tr>`).join("")}</tbody></table></div>
+    <div style="text-align:right;margin-top:14px;">
+      <div class="muted small">Total</div>
+      <div class="card-price" style="font-size:22px;">${rp(total)}</div>
+      <button class="btn btn-primary" data-checkout="cart" style="margin-top:10px;">Checkout</button>
+    </div></div>`;
+}
+function renderCheckout(){
+  const items = state.route.items || [];
+  if(!items.length) return `<div class="panel"><p class="muted">Tidak ada item.</p><button class="btn btn-ghost" data-go="catalog">Katalog</button></div>`;
+  const total=items.reduce((s,x)=>s+Number(x.price||0)*x.qty,0);
+  return `<div class="panel">
+    <div class="panel-title">Checkout</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Produk</th><th>Harga</th><th>Qty</th><th>Subtotal</th></tr></thead>
+      <tbody>${items.map(x=>`<tr><td>${escapeHTML(x.name)}</td><td>${rp(x.price)}</td><td>${x.qty}</td><td>${rp(Number(x.price)*x.qty)}</td></tr>`).join("")}</tbody></table></div>
+    <div style="text-align:right;margin:14px 0;">
+      <div class="muted small">Total Pembayaran</div>
+      <div class="card-price" style="font-size:24px;">${rp(total)}</div>
+    </div>
+    <form id="checkoutForm" style="display:grid;gap:10px;max-width:420px;">
+      <label>Nama Pembeli <input name="buyerName" value="${escapeHTML(state.profile.displayName)}" required /></label>
+      <label>Email <input name="buyerEmail" type="email" value="${escapeHTML(state.profile.email||"")}" required /></label>
+      <label>Catatan <textarea name="note" rows="2"></textarea></label>
+      <button class="btn btn-primary" type="submit">Buat Pesanan & Lanjut Bayar</button>
+    </form></div>`;
+}
+function renderPayment(orderId){
+  const o=state.data.orders?.[orderId];
+  if(!o) return `<div class="panel"><p class="muted">Pesanan tidak ditemukan.</p></div>`;
+  
+  // Ambil QRIS dari database, jika kosong pakai gambar QRIS default dari GitHub
+  const qris=state.data.qris?.main?.image||QRIS_FALLBACK;
+  
+  const waText=encodeURIComponent(`Halo admin Pradz Store, konfirmasi pembayaran.\nID: ${o.id}\nTotal: ${rp(o.total)}\nProduk: ${(o.items||[]).map(i=>i.name).join(", ")}`);
+  const waLink=`https://wa.me/${WA_NUMBER}?text=${waText}`;
+  
+  return `<div class="panel">
+    <div class="panel-title">Pembayaran</div>
+    <p class="small" style="margin:8px 0;">ID Transaksi: <b>${o.id}</b></p>
+    <p class="small">Total: <b>${rp(o.total)}</b></p>
+    <p class="small">Status: ${badgeOrder(o.status)}</p>
+    
+    <div class="qris-box">
+      <p class="small muted" style="margin-bottom:8px;">Scan QRIS berikut:</p>
+      ${qris?`<img src="${qris}" id="qrisImg"/>`:`<p class="badge badge-warning">QRIS belum diupload admin</p>`}
+      <div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-ghost btn-sm" data-copy="${o.id}">Salin ID</button>
+        ${qris?`<a class="btn btn-ghost btn-sm" href="${qris}" download="qris_pradz.jpg">Unduh QRIS</a>`:""}
+      </div>
+    </div>
+    
+    <div class="wa-box">
+      <b>Penting:</b> Setelah transfer, wajib kirim bukti ke WhatsApp
+      <a href="${waLink}" target="_blank"><b>0858-1449-7382</b></a>.
+      <div style="margin-top:8px;"><a class="btn btn-success btn-sm" href="${waLink}" target="_blank">Kirim Bukti via WhatsApp</a></div>
+    </div>
+    
+    <div class="panel" style="background:rgba(18,25,51,0.6);">
+      <div class="panel-title">Upload Bukti (Arsip Website)</div>
+      <form id="proofForm" style="display:grid;gap:10px;max-width:400px;margin-top:8px;">
+        <label>File Bukti <input type="file" name="proof" accept="image/*" required /></label>
+        <button class="btn btn-primary" type="submit" data-label="Kirim Bukti">Kirim Bukti</button>
+      </form>
+      ${o.proof?`<p class="small muted" style="margin-top:10px;">Bukti sudah diunggah. <a href="${o.proof}" target="_blank">Lihat</a></p>`:""}
+    </div>
+    <div style="margin-top:12px;"><button class="btn btn-ghost" data-go="orders">Lihat Pesanan Saya</button></div>
+  </div>`;
+}
+function badgeOrder(st){
+  const map={pending_payment:["Menunggu Pembayaran","badge-warning"],waiting_verification:["Menunggu Verifikasi","badge-info"],paid:["Dibayar","badge-success"],delivered:["Akun Terkirim","badge-success"],rejected:["Ditolak","badge-danger"],cancelled:["Dibatalkan","badge-danger"]};
+  const [l,c]=map[st]||["-","badge-muted"];
+  return `<span class="badge ${c}">${l}</span>`;
+}
+function renderOrders(){
+  const orders=Object.entries(state.data.orders||{}).map(([id,o])=>({id,...o})).filter(o=>o.uid===state.user?.uid).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  if(!orders.length) return `<div class="panel"><p class="muted">Belum ada pesanan.</p><button class="btn btn-primary" data-go="catalog">Belanja</button></div>`;
+  return `<div class="panel">
+    <div class="panel-title">Pesanan Saya</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Tanggal</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
+      <tbody>${orders.map(o=>`<tr>
+        <td><b>${o.id}</b></td><td>${fmtDate(o.createdAt)}</td><td>${rp(o.total)}</td>
+        <td>${badgeOrder(o.status)}</td>
+        <td><button class="btn btn-ghost btn-sm" data-view-order="${o.id}">Detail</button></td>
+      </tr>`).join("")}</tbody></table></div></div>`;
+}
+function renderAccount(orderId){
+  const o=state.data.orders?.[orderId];
+  if(!o) return `<div class="panel"><p class="muted">Pesanan tidak ditemukan.</p></div>`;
+  if(o.uid!==state.user.uid && !isAdmin()) return `<div class="panel"><p class="muted">Akses ditolak.</p></div>`;
+  if(o.status!=="delivered") return `<div class="panel"><p class="muted">Akun belum dikirim. Status: ${badgeOrder(o.status)}</p><button class="btn btn-ghost" data-go="orders">Kembali</button></div>`;
+  return `<div class="panel">
+    <div class="panel-title">Akun Anda</div>
+    <p class="small muted">ID: ${o.id} · Dikirim: ${fmtDate(o.deliveredAt)}</p>
+    ${(o.items||[]).map((it,idx)=>{
+      const acc=o.accounts?.[idx]||{};
+      return `<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:12px;background:rgba(18,25,51,0.5);">
+        <b>${escapeHTML(it.name)}</b>
+        <div class="acct-row"><span>Username</span><b id="u-${idx}">${escapeHTML(acc.username||"-")}</b>
+          <button class="btn btn-ghost btn-sm" data-copy-text="${escapeHTML(acc.username||"")}">Salin</button></div>
+        <div class="acct-row"><span>Password</span><b id="p-${idx}">${escapeHTML(acc.password||"-")}</b>
+          <button class="btn btn-ghost btn-sm" data-toggle-pass="${idx}">Lihat</button>
+          <button class="btn btn-ghost btn-sm" data-copy-text="${escapeHTML(acc.password||"")}">Salin</button></div>
+        ${acc.note?`<p class="small muted" style="margin-top:8px;">${escapeHTML(acc.note)}</p>`:""}
+      </div>`;
+    }).join("")}
+    <div style="margin-top:14px;"><button class="btn btn-ghost" data-go="orders">Kembali</button></div></div>`;
+}
+function renderHelp(){
+  return `<div class="panel">
+    <div class="panel-title">Bantuan</div>
+    <h3 style="margin:12px 0 6px;">Cara Membeli</h3>
+    <ol class="small muted" style="padding-left:20px;line-height:1.9;">
+      <li>Pilih produk di Katalog, klik Detail.</li>
+      <li>Klik Beli Sekarang atau tambah ke Keranjang.</li>
+      <li>Isi data checkout, klik Buat Pesanan.</li>
+      <li>Scan QRIS, kirim bukti ke WA 0858-1449-7382.</li>
+      <li>Admin verifikasi & kirim akun ke dashboard lo.</li>
+    </ol>
+    <h3 style="margin:12px 0 6px;">Kontak</h3>
+    <p class="small">WhatsApp: <a href="https://wa.me/${WA_NUMBER}" target="_blank">0858-1449-7382</a></p>
+  </div>`;
+}
+function renderAdmin(){
+  if(!isAdmin()) return `<div class="panel"><p class="muted">Akses ditolak.</p></div>`;
+  const products=Object.values(state.data.products||{});
+  const orders=Object.entries(state.data.orders||{}).map(([id,o])=>({id,...o})).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const users=Object.values(state.data.users||{});
+  const income=orders.filter(o=>["paid","delivered"].includes(o.status)).reduce((s,o)=>s+Number(o.total||0),0);
+  const pending=orders.filter(o=>o.status==="waiting_verification").length;
+  return `
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">Total Produk</div><div class="stat-value primary">${products.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Total Pesanan</div><div class="stat-value">${orders.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Menunggu Verifikasi</div><div class="stat-value warning">${pending}</div></div>
+      <div class="stat-card"><div class="stat-label">Pendapatan</div><div class="stat-value success">${rp(income)}</div></div>
+      <div class="stat-card"><div class="stat-label">Total Pengguna</div><div class="stat-value">${users.length}</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Manajemen Produk</div>
+        <button class="btn btn-primary btn-sm" data-action="add-product">+ Tambah Produk</button></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Foto</th><th>Nama</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Aksi</th></tr></thead>
+        <tbody>${products.length?products.map(p=>`<tr>
+          <td>${p.image?`<img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"/>`:"-"}</td>
+          <td>${escapeHTML(p.name||"-")}</td><td>${escapeHTML(p.category||"-")}</td>
+          <td>${rp(p.price)}</td><td>${p.stock||0}</td>
+          <td><button class="btn btn-ghost btn-sm" data-action="edit-product" data-id="${p.id}">Edit</button>
+              <button class="btn btn-danger btn-sm" data-action="del-product" data-id="${p.id}">Hapus</button></td>
+        </tr>`).join(""):`<tr class="empty-row"><td colspan="6">Belum ada produk.</td></tr>`}</tbody></table></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Manajemen Kategori</div>
+        <button class="btn btn-primary btn-sm" data-action="add-cat">+ Tambah Kategori</button></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nama</th><th>Aksi</th></tr></thead>
+        <tbody>${Object.entries(state.data.categories||{}).length?Object.entries(state.data.categories||{}).map(([id,c])=>`<tr>
+          <td>${escapeHTML(c.name)}</td>
+          <td><button class="btn btn-danger btn-sm" data-action="del-cat" data-id="${id}">Hapus</button></td>
+        </tr>`).join(""):`<tr class="empty-row"><td colspan="2">Belum ada kategori.</td></tr>`}</tbody></table></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Pengaturan QRIS</div>
+      <div class="qris-box">${state.data.qris?.main?.image?`<img src="${state.data.qris.main.image}"/>`:`<img src="${QRIS_FALLBACK}" alt="QRIS Default"/><p class="small muted">Ini adalah QRIS default dari file GitHub. Upload jika ingin mengganti.</p>`}</div>
+      <form id="qrisForm" style="display:grid;gap:10px;max-width:400px;">
+        <label>Upload Foto QRIS Baru <input type="file" name="qris" accept="image/*" /></label>
+        <button class="btn btn-primary" type="submit" data-label="Simpan QRIS">Simpan QRIS</button>
+        <button type="button" class="btn btn-danger" data-action="del-qris">Hapus QRIS Kustom</button>
+      </form>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Pesanan Masuk</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>Pembeli</th><th>Total</th><th>Status</th><th>Bukti</th><th>Aksi</th></tr></thead>
+        <tbody>${orders.length?orders.map(o=>`<tr>
+          <td><b>${o.id}</b></td><td>${escapeHTML(o.buyerName||"-")}</td><td>${rp(o.total)}</td>
+          <td>${badgeOrder(o.status)}</td>
+          <td>${o.proof?`<a href="${o.proof}" target="_blank" class="btn btn-ghost btn-sm">Lihat</a>`:"-"}</td>
+          <td>
+            ${o.status==="waiting_verification"?`<button class="btn btn-success btn-sm" data-action="approve-order" data-id="${o.id}">Setujui</button>
+              <button class="btn btn-danger btn-sm" data-action="reject-order" data-id="${o.id}">Tolak</button>`:""}
+            ${o.status==="paid"?`<button class="btn btn-primary btn-sm" data-action="deliver-order" data-id="${o.id}">Kirim Akun</button>`:""}
+            ${o.status==="delivered"?`<span class="badge badge-success">Selesai</span>`:""}
+          </td>
+        </tr>`).join(""):`<tr class="empty-row"><td colspan="6">Belum ada pesanan.</td></tr>`}</tbody></table></div>
+    </div>`;
+}
+
+function bindPageActions(){
+  $$("[data-go]").forEach(el=>el.onclick=e=>{e.preventDefault();state.page=el.dataset.go;state.route={id:null};renderNav();renderPage();});
+  $$("[data-go-detail]").forEach(el=>el.onclick=()=>{state.page="detail";state.route={id:el.dataset.goDetail};renderNav();renderPage();});
+  $$("[data-add-cart]").forEach(el=>el.onclick=()=>addToCart(el.dataset.addCart,1));
+  $$("[data-buy]").forEach(el=>el.onclick=()=>{
+    const p=state.data.products[el.dataset.buy]; if(!p) return;
+    state.page="checkout"; state.route={items:[{pid:el.dataset.buy,name:p.name,price:p.price,qty:1}]};
+    renderNav(); renderPage();
+  });
+  $$("[data-del-cart]").forEach(el=>el.onclick=async()=>{ await remove(ref(db,`${ROOT}/carts/${state.user.uid}/${el.dataset.delCart}`)); toast("Dihapus"); });
+  $$("[data-qty]").forEach(el=>el.onchange=async()=>{ const q=Math.max(1,Number(el.value)||1); await update(ref(db,`${ROOT}/carts/${state.user.uid}/${el.dataset.qty}`),{qty:q}); });
+  const checkoutBtn=$("[data-checkout]");
+  if(checkoutBtn) checkoutBtn.onclick=()=>{
+    const cart=state.data.carts||{};
+    const items=Object.entries(cart).map(([pid,q])=>{ const p=state.data.products?.[pid]; return p?{pid,name:p.name,price:p.price,qty:q.qty}:null; }).filter(Boolean);
+    if(!items.length) return toast("Keranjang kosong","error");
+    state.page="checkout"; state.route={items,from:"cart"}; renderNav(); renderPage();
+  };
+  const fSearch=$("#fSearch"), fCat=$("#fCat"), fSort=$("#fSort");
+  if(fSearch&&fCat&&fSort){
+    const apply=()=>{
+      const q=fSearch.value.toLowerCase(), cat=fCat.value, sort=fSort.value;
+      let arr=Object.entries(state.data.products||{}).map(([id,p])=>({id,...p}));
+      if(q) arr=arr.filter(p=>p.name.toLowerCase().includes(q));
+      if(cat) arr=arr.filter(p=>p.category===cat);
+      if(sort==="asc") arr.sort((a,b)=>a.price-b.price);
+      else if(sort==="desc") arr.sort((a,b)=>b.price-a.price);
+      else arr.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+      $("#catalogGrid").innerHTML=arr.map(cardProduct).join("")||`<p class="muted small">Tidak ada produk cocok.</p>`;
+      $$("[data-go-detail]").forEach(el=>el.onclick=()=>{state.page="detail";state.route={id:el.dataset.goDetail};renderNav();renderPage();});
+    };
+    fSearch.oninput=apply; fCat.onchange=apply; fSort.onchange=apply;
+  }
+  const co=$("#checkoutForm");
+  if(co) co.onsubmit=async e=>{
+    e.preventDefault(); const fd=new FormData(co);
+    const items=state.route.items||[];
+    const total=items.reduce((s,x)=>s+Number(x.price||0)*x.qty,0);
+    const id="TRX"+Date.now();
+    const order={id,uid:state.user.uid,buyerName:fd.get("buyerName"),buyerEmail:fd.get("buyerEmail"),note:fd.get("note")||"",items:items.map(i=>({pid:i.pid,name:i.name,price:i.price,qty:i.qty})),total,status:"pending_payment",createdAt:Date.now(),proof:"",accounts:null};
+    await set(ref(db,`${ROOT}/orders/${id}`),order);
+    for(const i of items){ const p=state.data.products[i.pid]; if(!p) continue; await update(ref(db,`${ROOT}/products/${i.pid}`),{stock:Math.max(0,Number(p.stock||0)-i.qty)}); }
+    if(state.route.from==="cart"){ for(const i of items){ await remove(ref(db,`${ROOT}/carts/${state.user.uid}/${i.pid}`)); } }
+    state.page="payment"; state.route={id}; renderNav(); renderPage();
+  };
+  const pf=$("#proofForm");
+  if(pf) pf.onsubmit=async e=>{
+    e.preventDefault(); const file=new FormData(pf).get("proof");
+    if(!file||!file.size) return toast("Pilih file","error");
+    try{ const b64=await fileToBase64(file); await update(ref(db,`${ROOT}/orders/${state.route.id}`),{proof:b64,status:"waiting_verification",proofUploadedAt:Date.now()}); toast("Bukti terkirim"); }
+    catch(err){ toast(err.message,"error"); }
+  };
+  $$("[data-copy]").forEach(el=>el.onclick=()=>navigator.clipboard.writeText(el.dataset.copy).then(()=>toast("ID disalin")));
+  $$("[data-copy-text]").forEach(el=>el.onclick=()=>navigator.clipboard.writeText(el.dataset.copyText).then(()=>toast("Disalin")));
+  $$("[data-toggle-pass]").forEach(el=>el.onclick=()=>{
+    const idx=el.dataset.togglePass; const b=$("#p-"+idx); if(!b) return;
+    if(b.dataset.shown==="1"){ b.textContent="••••••••"; b.dataset.shown="0"; el.textContent="Lihat"; }
+    else{ const o=state.data.orders[state.route.id]; const acc=o.accounts?.[idx]||{}; b.textContent=acc.password||"-"; b.dataset.shown="1"; el.textContent="Sembunyikan"; }
+  });
+  const qf=$("#qrisForm");
+  if(qf) qf.onsubmit=async e=>{
+    e.preventDefault(); const file=new FormData(qf).get("qris");
+    if(!file||!file.size) return toast("Pilih file QRIS","error");
+    try{ const b64=await fileToBase64(file,400); await set(ref(db,`${ROOT}/qris/main`),{image:b64,updatedAt:Date.now()}); toast("QRIS disimpan"); }
+    catch(err){ toast(err.message,"error"); }
+  };
+  $$("[data-action]").forEach(el=>el.onclick=()=>handleAdminAction(el.dataset.action,el));
+  $$("[data-view-order]").forEach(el=>el.onclick=()=>{
+    const id=el.dataset.viewOrder; const o=state.data.orders[id]; if(!o) return;
+    if(o.status==="delivered"){ state.page="account"; state.route={id}; renderNav(); renderPage(); }
+    else if(o.status==="pending_payment"||o.status==="waiting_verification"){ state.page="payment"; state.route={id}; renderNav(); renderPage(); }
+    else{
+      openModal("Detail Pesanan",`
+        <p><b>ID:</b> ${o.id}</p><p><b>Status:</b> ${badgeOrder(o.status)}</p>
+        <p><b>Total:</b> ${rp(o.total)}</p>
+        <ul>${(o.items||[]).map(i=>`<li>${escapeHTML(i.name)} x${i.qty} = ${rp(i.price*i.qty)}</li>`).join("")}</ul>`);
+    }
+  });
+}
+async function addToCart(pid,qty){
+  if(!state.user) return;
+  const p=state.data.products[pid]; if(!p) return;
+  if(Number(p.stock||0)<=0) return toast("Stok habis","error");
+  const current=Number(state.data.carts?.[pid]?.qty||0);
+  const newQty=Math.min(Number(p.stock),current+qty);
+  await set(ref(db,`${ROOT}/carts/${state.user.uid}/${pid}`),{pid,qty:newQty,addedAt:Date.now()});
+  toast("Ditambahkan ke keranjang");
+}
+function handleAdminAction(action,el){
+  if(!isAdmin()) return toast("Akses ditolak","error");
+  const id=el.dataset.id;
+  if(action==="add-product") return productForm();
+  if(action==="edit-product") return productForm(id);
+  if(action==="del-product") return deleteProduct(id);
+  if(action==="add-cat") return categoryForm();
+  if(action==="del-cat") return deleteCategory(id);
+  if(action==="del-qris") return deleteQris();
+  if(action==="approve-order") return approveOrder(id);
+  if(action==="reject-order") return rejectOrder(id);
+  if(action==="deliver-order") return deliverOrder(id);
+}
+function productForm(id){
+  const p=id?state.data.products[id]:null;
+  const cats=Object.values(state.data.categories||{});
+  openModal(id?"Edit Produk":"Tambah Produk",`
+    <form>
+      <label>Nama <input name="name" value="${escapeHTML(p?.name||"")}" required /></label>
+      <label>Kategori <select name="category">${cats.map(c=>`<option ${p?.category===c.name?"selected":""}>${escapeHTML(c.name)}</option>`).join("")}</select></label>
+      <label>Harga <input type="number" name="price" value="${p?.price||0}" min="0" required /></label>
+      <label>Stok <input type="number" name="stock" value="${p?.stock||1}" min="0" required /></label>
+      <label>Deskripsi <textarea name="description" rows="3">${escapeHTML(p?.description||"")}</textarea></label>
+      <label>Foto Produk ${p?.image?"(kosongkan jika tidak ganti)":""} <input type="file" name="image" accept="image/*" ${id?"":"required"} /></label>
+      <button class="btn btn-primary btn-block" type="submit" data-label="${id?"Simpan":"Tambah"}">${id?"Simpan":"Tambah"}</button>
+    </form>`,async fd=>{
+      let image=p?.image||"";
+      const file=fd.get("image");
+      if(file&&file.size){ image=await fileToBase64(file); }
+      const data={name:fd.get("name").trim(),category:fd.get("category"),price:Number(fd.get("price")),stock:Number(fd.get("stock")),description:fd.get("description").trim(),image,createdAt:p?.createdAt||Date.now(),updatedAt:Date.now()};
+      if(id) await update(ref(db,`${ROOT}/products/${id}`),data);
+      else{ const newId=push(ref(db,`${ROOT}/products`)).key; await set(ref(db,`${ROOT}/products/${newId}`),{id:newId,...data}); }
+      closeModal(); toast("Produk disimpan");
+    });
+}
+async function deleteProduct(id){
+  if(!confirm("Hapus produk ini?")) return;
+  await remove(ref(db,`${ROOT}/products/${id}`)); toast("Produk dihapus");
+}
+function categoryForm(){
+  openModal("Tambah Kategori",`
+    <form>
+      <label>Nama Kategori <input name="name" required /></label>
+      <button class="btn btn-primary btn-block" type="submit" data-label="Tambah">Tambah</button>
+    </form>`,async fd=>{
+      const id=push(ref(db,`${ROOT}/categories`)).key;
+      await set(ref(db,`${ROOT}/categories/${id}`),{id,name:fd.get("name").trim(),createdAt:Date.now()});
+      closeModal(); toast("Kategori ditambah");
+    });
+}
+async function deleteCategory(id){ if(!confirm("Hapus kategori ini?")) return; await remove(ref(db,`${ROOT}/categories/${id}`)); toast("Kategori dihapus"); }
+async function deleteQris(){ if(!confirm("Hapus QRIS kustom? (Akan kembali ke QRIS default)")) return; await remove(ref(db,`${ROOT}/qris/main`)); toast("QRIS kustom dihapus"); }
+async function approveOrder(id){
+  if(!confirm("Setujui pembayaran?")) return;
+  await update(ref(db,`${ROOT}/orders/${id}`),{status:"paid",verifiedAt:Date.now(),verifiedBy:state.profile.displayName});
+  toast("Pembayaran disetujui, silakan kirim akun");
+}
+async function rejectOrder(id){
+  if(!confirm("Tolak pembayaran?")) return;
+  await update(ref(db,`${ROOT}/orders/${id}`),{status:"rejected",rejectedAt:Date.now()});
+  toast("Pembayaran ditolak");
+}
+function deliverOrder(id){
+  const o=state.data.orders[id]; if(!o) return;
+  const items=o.items||[];
+  const forms=items.map((it,i)=>`
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;">
+      <b>${escapeHTML(it.name)}</b>
+      <label style="margin-top:8px;">Username <input name="u${i}" required /></label>
+      <label>Password <input name="p${i}" required /></label>
+      <label>Catatan <input name="n${i}" /></label>
+    </div>`).join("");
+  openModal("Kirim Akun ke Pembeli",`
+    <form>${forms}
+      <button class="btn btn-primary btn-block" type="submit" data-label="Kirim">Kirim Akun</button>
+    </form>`,async fd=>{
+      const accounts={};
+      items.forEach((it,i)=>{ accounts[i]={username:fd.get("u"+i).trim(),password:fd.get("p"+i).trim(),note:fd.get("n"+i).trim()}; });
+      await update(ref(db,`${ROOT}/orders/${id}`),{accounts,status:"delivered",deliveredAt:Date.now()});
+      closeModal(); toast("Akun terkirim");
+    });
+}
+renderNav();
+</script>
+</body>
+</html>
